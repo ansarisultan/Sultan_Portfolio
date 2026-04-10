@@ -193,8 +193,13 @@ const Hero = () => {
                     
                     {/* Profile Image - Replace src with actual photo */}
                     <img
-                      src="/images/dp1.png"
+                      src="/images/dp1.jpeg"
                       alt="Sultan Salauddin Ansari"
+                      width="380"
+                      height="380"
+                      loading="eager"
+                      decoding="async"
+                      fetchPriority="high"
                       className="absolute inset-0 w-full h-full object-cover"
                       onError={(e) => {
                         // Fallback if image doesn't exist

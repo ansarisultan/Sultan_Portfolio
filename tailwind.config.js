@@ -7,9 +7,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'sans': ['Cabinet Grotesk', 'Inter', 'system-ui', 'sans-serif'],
-        'display': ['Clash Display', 'Inter', 'sans-serif'],
-        'mono': ['JetBrains Mono', 'monospace'],
+        sans: ['system-ui', 'sans-serif'],
+        display: ['Clash Display', 'system-ui', 'sans-serif'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
       },
       colors: {
         primary: {

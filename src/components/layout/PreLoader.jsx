@@ -20,33 +20,35 @@ const Preloader = () => {
   const nameParts = ['Sultan', 'Salauddin', 'Ansari']
 
   useEffect(() => {
-    // Loading text rotation
     let textIndex = 0
     const textInterval = setInterval(() => {
       textIndex = (textIndex + 1) % loadingTexts.length
       setLoadingText(loadingTexts[textIndex])
-    }, 600)
+    }, 850)
 
-    // Phase 2: Start progress after name animation
     setTimeout(() => {
       setAnimationPhase('loading')
-    }, 1000)
+    }, 900)
 
-    // Progress bar
-    const progressInterval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(progressInterval)
-          setIsComplete(true)
-          return 100
-        }
-        return prev + 2
-      })
-    }, 10)
+    const progressDurationMs = 3200
+    const start = performance.now()
+    let frameId = 0
+
+    const tick = (now) => {
+      const elapsed = now - start
+      const nextProgress = Math.min(100, Math.round((elapsed / progressDurationMs) * 100))
+      setProgress(nextProgress)
+      if (nextProgress >= 100) {
+        setIsComplete(true)
+        return
+      }
+      frameId = requestAnimationFrame(tick)
+    }
+    frameId = requestAnimationFrame(tick)
 
     return () => {
       clearInterval(textInterval)
-      clearInterval(progressInterval)
+      cancelAnimationFrame(frameId)
     }
   }, [])
 
