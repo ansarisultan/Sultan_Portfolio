@@ -7,7 +7,7 @@ function ParticleCloud() {
   const ref = useRef()
   
   const positions = useMemo(() => {
-    const pos = new Float32Array(5000 * 3)
+    const pos = new Float32Array(1800 * 3)
     const sphere = random.inSphere(pos, { radius: 2.5 })
     return sphere
   }, [])
@@ -41,7 +41,11 @@ function ParticleCloud() {
 const ParticleField = () => {
   return (
     <div className="absolute inset-0 z-0">
-      <Canvas camera={{ position: [0, 0, 4] }}>
+      <Canvas
+        camera={{ position: [0, 0, 4] }}
+        dpr={[1, 1.5]}
+        gl={{ antialias: false, alpha: true, powerPreference: 'low-power' }}
+      >
         <ParticleCloud />
       </Canvas>
     </div>

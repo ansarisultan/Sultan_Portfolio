@@ -6,10 +6,10 @@ import Lenis from 'lenis'
 import { Toaster } from 'react-hot-toast'
 import Navbar from './components/layout/Navbar'
 import Hero from './components/sections/Hero'
-import CustomCursor from './components/layout/CustomCursor'
 import Preloader from './components/layout/PreLoader'
 import ScrollProgress from './components/layout/ScrollProgress'
 
+const CustomCursor = lazy(() => import('./components/layout/CustomCursor'))
 const About = lazy(() => import('./components/sections/About'))
 const Ecosystem = lazy(() => import('./components/sections/Ecosystem'))
 const Projects = lazy(() => import('./components/sections/Projects'))
@@ -84,10 +84,10 @@ function App() {
 
   return (
     <Router>
-      <CustomCursor />
       <Suspense fallback={null}>
         {enableHeavyEffects && (
           <>
+            <CustomCursor />
             <MouseGlow />
             <GradientBackground />
             <NoiseOverlay />

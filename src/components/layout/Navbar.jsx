@@ -18,22 +18,31 @@ const Navbar = () => {
   const [activeSection, setActiveSection] = useState('home')
 
   useEffect(() => {
+    let ticking = false
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-      
-      const sections = navItems.map(item => item.href.slice(1))
-      const current = sections.find(section => {
-        const element = document.getElementById(section)
-        if (element) {
-          const rect = element.getBoundingClientRect()
-          return rect.top <= 100 && rect.bottom >= 100
-        }
-        return false
+      if (ticking) return
+
+      ticking = true
+      window.requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 50)
+
+        const sections = navItems.map((item) => item.href.slice(1))
+        const current = sections.find((section) => {
+          const element = document.getElementById(section)
+          if (element) {
+            const rect = element.getBoundingClientRect()
+            return rect.top <= 100 && rect.bottom >= 100
+          }
+          return false
+        })
+        if (current) setActiveSection(current)
+        ticking = false
       })
-      if (current) setActiveSection(current)
     }
 
-    window.addEventListener('scroll', handleScroll)
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -50,6 +59,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           <motion.a
             href="#home"
+            aria-label="Go to home section"
             className="group relative inline-flex items-center gap-2 text-2xl font-display font-bold"
             whileHover={{ scale: 1.05 }}
           >
@@ -90,6 +100,7 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             className={`md:hidden relative z-50 w-10 h-10 flex items-center justify-center rounded-full border text-white backdrop-blur-2xl transition-all duration-300 ${
               mobileMenuOpen
                 ? 'border-primary-300/40 bg-dark-900/90 shadow-[0_0_24px_rgba(99,102,241,0.28)]'
