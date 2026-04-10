@@ -90,7 +90,11 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden relative z-50 w-10 h-10 flex items-center justify-center rounded-full border border-primary-400/30 bg-gradient-to-br from-black/95 via-dark-900/95 to-primary-950 text-white shadow-[0_0_24px_rgba(59,130,246,0.22)]"
+            className={`md:hidden relative z-50 w-10 h-10 flex items-center justify-center rounded-full border text-white backdrop-blur-2xl transition-all duration-300 ${
+              mobileMenuOpen
+                ? 'border-primary-300/40 bg-dark-900/90 shadow-[0_0_24px_rgba(99,102,241,0.28)]'
+                : 'border-white/10 bg-white/5 shadow-[0_10px_30px_rgba(2,6,23,0.35)]'
+            }`}
           >
             <AnimatePresence mode="wait">
               {mobileMenuOpen ? (
@@ -124,16 +128,20 @@ const Navbar = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute top-full left-0 right-0 md:hidden px-4 pb-4"
+            className="fixed top-16 left-0 right-0 z-40 md:hidden px-4"
           >
             <motion.div
               initial={{ opacity: 0, y: -16, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -12, scale: 0.98 }}
               transition={{ duration: 0.2 }}
-              className="relative overflow-hidden rounded-2xl border border-primary-400/30 bg-gradient-to-br from-black via-dark-900 to-primary-950/70 backdrop-blur-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.75)]"
+             className="relative overflow-hidden rounded-2xl p-4 
+bg-[#020617]/95 backdrop-blur-xl 
+border border-white/10 
+shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
             >
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary-400/12 via-transparent to-primary-600/8" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary-500/12 via-white/[0.04] to-accent-cyan/10" />
+              <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-primary-300/50 to-transparent" />
               <div className="relative space-y-2">
                 {navItems.map((item, index) => (
                   <motion.a
@@ -145,8 +153,8 @@ const Navbar = () => {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`block px-4 py-3 rounded-xl text-base font-semibold transition-all ${
                       activeSection === item.href.slice(1)
-                        ? 'bg-gradient-to-r from-primary-500/35 via-primary-400/25 to-primary-600/30 text-white border border-primary-300/45 shadow-[0_0_22px_rgba(59,130,246,0.25)]'
-                        : 'text-gray-100 hover:text-white border border-transparent hover:border-primary-300/20 hover:bg-white/5'
+                        ? 'bg-gradient-to-r from-primary-500/20 via-accent-purple/15 to-accent-cyan/20 text-white border border-primary-300/35 shadow-[0_0_22px_rgba(99,102,241,0.22)]'
+                        : 'text-gray-100 border border-transparent hover:text-white hover:border-white/10 hover:bg-white/[0.06]'
                     }`}
                   >
                     {item.name}

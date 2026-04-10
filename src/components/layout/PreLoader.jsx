@@ -7,6 +7,7 @@ const Preloader = () => {
   const [loadingText, setLoadingText] = useState('Initializing')
   const [animationPhase, setAnimationPhase] = useState('nameEnter')
   const [isComplete, setIsComplete] = useState(false)
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
 
   const loadingTexts = [
     'Initializing',
@@ -29,7 +30,7 @@ const Preloader = () => {
     // Phase 2: Start progress after name animation
     setTimeout(() => {
       setAnimationPhase('loading')
-    }, 2500)
+    }, 1000)
 
     // Progress bar
     const progressInterval = setInterval(() => {
@@ -39,9 +40,9 @@ const Preloader = () => {
           setIsComplete(true)
           return 100
         }
-        return prev + 1
+        return prev + 2
       })
-    }, 20)
+    }, 10)
 
     return () => {
       clearInterval(textInterval)
@@ -61,11 +62,10 @@ const Preloader = () => {
     },
     // Each part of the name animates separately but stays inline
     namePartFirst: {
-      initial: { opacity: 0, scale: 2.5, filter: 'blur(15px)', x: -30 },
+      initial: { opacity: 0, scale: 1.2, x: -30 },
       animate: { 
         opacity: 1, 
         scale: 1, 
-        filter: 'blur(0px)',
         x: 0,
         transition: { 
           duration: 1, 
@@ -75,11 +75,10 @@ const Preloader = () => {
       }
     },
     namePartMiddle: {
-      initial: { opacity: 0, scale: 2.5, filter: 'blur(15px)', y: 20 },
+      initial: { opacity: 0, scale: 1.2, y: 20 },
       animate: { 
         opacity: 1, 
         scale: 1, 
-        filter: 'blur(0px)',
         y: 0,
         transition: { 
           duration: 1, 
@@ -89,11 +88,10 @@ const Preloader = () => {
       }
     },
     namePartLast: {
-      initial: { opacity: 0, scale: 2.5, filter: 'blur(15px)', x: 30 },
+      initial: { opacity: 0, scale: 1.2, x: 30 },
       animate: { 
         opacity: 1, 
         scale: 1, 
-        filter: 'blur(0px)',
         x: 0,
         transition: { 
           duration: 1, 
@@ -151,46 +149,50 @@ const Preloader = () => {
             className="absolute inset-0 bg-gradient-radial from-primary-500/20 via-transparent to-transparent"
           />
           
-          {/* Rotating rings */}
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-primary-500/8"
-          />
-          <motion.div
-            animate={{ rotate: -360 }}
-            transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-accent-purple/8"
-          />
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full border border-accent-cyan/8"
-          />
+          {!isMobile && (
+            <>
+              {/* Rotating rings */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-primary-500/8"
+              />
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-accent-purple/8"
+              />
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full border border-accent-cyan/8"
+              />
 
-          {/* Floating particles */}
-          {[...Array(30)].map((_, i) => (
-            <motion.div
-              key={i}
-              animate={{
-                y: [0, -40, 0],
-                x: [0, i % 2 === 0 ? 20 : -20, 0],
-                opacity: [0, 0.6, 0],
-                scale: [0, 1, 0],
-              }}
-              transition={{
-                duration: 3 + Math.random() * 3,
-                repeat: Infinity,
-                delay: i * 0.15,
-                ease: "easeInOut"
-              }}
-              className="absolute w-1.5 h-1.5 bg-gradient-to-r from-primary-400 to-accent-purple rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-            />
-          ))}
+              {/* Floating particles */}
+              {[...Array(10)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  animate={{
+                    y: [0, -40, 0],
+                    x: [0, i % 2 === 0 ? 20 : -20, 0],
+                    opacity: [0, 0.6, 0],
+                    scale: [0, 1, 0],
+                  }}
+                  transition={{
+                    duration: 3 + Math.random() * 3,
+                    repeat: Infinity,
+                    delay: i * 0.15,
+                    ease: "easeInOut"
+                  }}
+                  className="absolute w-1.5 h-1.5 bg-gradient-to-r from-primary-400 to-accent-purple rounded-full"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                  }}
+                />
+              ))}
+            </>
+          )}
 
           {/* Particle explosion on complete */}
           {isComplete && (
