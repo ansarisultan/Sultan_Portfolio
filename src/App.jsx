@@ -6,7 +6,7 @@ import Lenis from 'lenis'
 import { Toaster } from 'react-hot-toast'
 import Navbar from './components/layout/Navbar'
 import Hero from './components/sections/Hero'
-import Preloader from './components/layout/PreLoader'
+// import Preloader from './components/layout/PreLoader'
 import ScrollProgress from './components/layout/ScrollProgress'
 
 const CustomCursor = lazy(() => import('./components/layout/CustomCursor'))
@@ -32,7 +32,8 @@ function App() {
   const isBrowser = typeof window !== 'undefined'
   const hasSeenPreloader = isBrowser && sessionStorage.getItem(PRELOADER_KEY) === '1'
   const isCrawler = isBrowser && BOT_UA_PATTERN.test(window.navigator.userAgent || '')
-  const showPreloader = isBrowser && !isCrawler && !hasSeenPreloader
+  // const showPreloader = isBrowser && !isCrawler && !hasSeenPreloader
+  const showPreloader = false
 
   const [loading, setLoading] = useState(showPreloader)
   const [showContent, setShowContent] = useState(!showPreloader)
@@ -111,7 +112,7 @@ function App() {
 
       <AnimatePresence mode="wait">
         {loading ? (
-          <Preloader key="preloader" />
+          null /* <Preloader key="preloader" /> */
         ) : (
           <motion.div
             key="content"
