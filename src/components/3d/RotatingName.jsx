@@ -1,34 +1,24 @@
-// components/3d/RotatingName.jsx
-import React, { useRef } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import { Text3D, Center } from '@react-three/drei'
+// Pure CSS rotating name — zero Three.js / opentype dependency
+import React from 'react'
 
-function RotatingText() {
-  const textRef = useRef()
-
-  useFrame((state) => {
-    const time = state.clock.getElapsedTime()
-    textRef.current.rotation.y = Math.sin(time * 0.3) * 0.2
-    textRef.current.rotation.x = Math.sin(time * 0.2) * 0.1
-    textRef.current.position.y = Math.sin(time * 0.5) * 0.1
-  })
-
-  return (
-    <Text3D
-      ref={textRef}
-      font="/fonts/ClashDisplay_Regular.json"
-      size={1.5}
-      height={0.2}
-      curveSegments={12}
-      bevelEnabled
-      bevelThickness={0.02}
-      bevelSize={0.02}
-      bevelOffset={0}
-      bevelSegments={5}
-    >
+const RotatingName = () => (
+  <div style={{
+    display: 'inline-block',
+    animation: 'rotateName 6s ease-in-out infinite',
+    transformStyle: 'preserve-3d',
+  }}>
+    <style>{`
+      @keyframes rotateName {
+        0%,100% { transform: rotateY(0deg) rotateX(0deg) translateY(0px); }
+        25%      { transform: rotateY(12deg) rotateX(6deg) translateY(-6px); }
+        50%      { transform: rotateY(0deg) rotateX(-4deg) translateY(6px); }
+        75%      { transform: rotateY(-12deg) rotateX(6deg) translateY(-4px); }
+      }
+    `}</style>
+    <span style={{ fontSize: 'inherit', fontWeight: 'inherit', color: 'inherit' }}>
       Sultan Ansari
-      <meshNormalMaterial />
-    </Text3D>
-  )
-}
+    </span>
+  </div>
+)
 
+export default RotatingName

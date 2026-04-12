@@ -2,7 +2,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { FiArrowRight, FiGithub, FiExternalLink } from 'react-icons/fi'
+import { FiArrowRight, FiExternalLink, FiGithub } from '../../utils/icons'
 import GlassCard from '../ui/GlassCard'
 
 const FeaturedProject = () => {

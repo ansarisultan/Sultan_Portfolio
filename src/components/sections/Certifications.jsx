@@ -1,12 +1,15 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { 
-  SiGooglecloud,
+import {
+  FiAward,
+  FiBookOpen,
+  FiDatabase,
+  FiExternalLink,
+  FiServer,
   SiInfosys,
-  SiMicrosoft
-} from 'react-icons/si'
-import { FiAward, FiExternalLink, FiDatabase, FiServer, FiBookOpen } from 'react-icons/fi'
+  SiMicrosoft,
+} from '../../utils/icons'
 import GlassCard from '../ui/GlassCard'
 
 const Certifications = () => {

@@ -2,7 +2,7 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { FiX, FiGithub, FiExternalLink, FiArrowRight } from 'react-icons/fi'
+import { FiArrowRight, FiExternalLink, FiGithub, FiX } from '../../utils/icons'
 import GlassCard from './GlassCard'
 
 const ProjectQuickView = ({ project, isOpen, onClose }) => {

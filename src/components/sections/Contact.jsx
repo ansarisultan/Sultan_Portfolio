@@ -4,10 +4,16 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import emailjs from '@emailjs/browser'
 import toast from 'react-hot-toast'
-import { 
-  FiMail, FiMapPin, FiPhone, FiSend,
-  FiGithub, FiLinkedin, FiTwitter, FiLoader
-} from 'react-icons/fi'
+import {
+  FiGithub,
+  FiLinkedin,
+  FiLoader,
+  FiMail,
+  FiMapPin,
+  FiPhone,
+  FiSend,
+  FiTwitter,
+} from '../../utils/icons'
 import GlassCard from '../ui/GlassCard'
 import GradientButton from '../ui/GradientButton'
 

@@ -1,17 +1,17 @@
 import React, { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import {
-  FiGrid,
-  FiMessageSquare,
   FiActivity,
-  FiCpu,
   FiBarChart2,
-  FiLayers,
+  FiCpu,
   FiGithub,
+  FiGrid,
+  FiLayers,
   FiLinkedin,
   FiMail,
+  FiMessageSquare,
   FiTwitter,
-} from 'react-icons/fi'
+} from '../../utils/icons'
 import GradientButton from '../ui/GradientButton'
 
 const ParticleField = lazy(() => import('../3d/ParticleField'))
@@ -131,7 +131,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="mb-6 min-h-[2rem] sm:min-h-[2.5rem] md:min-h-[3rem]"
+              className="relative mb-6 min-h-[2rem] sm:min-h-[2.5rem] md:min-h-[3rem]"
             >
               <AnimatePresence mode="wait">
                 <motion.span
@@ -221,7 +221,7 @@ const Hero = () => {
                     height="380"
                     loading="eager"
                     decoding="async"
-                    fetchPriority="high"
+                    fetchpriority="high"
                     className="absolute inset-0 w-full h-full object-cover"
                     onError={(event) => {
                       event.currentTarget.style.display = 'none'

@@ -1,63 +1,74 @@
-import React, { useRef } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import { MeshDistortMaterial, Sphere, Torus, Octahedron } from '@react-three/drei'
+// Pure CSS floating shapes — zero Three.js dependency
+import React, { useMemo } from 'react'
 
-function FloatingShape({ position, color, speed = 1, distort = 0.3 }) {
-  const mesh = useRef()
+const SHAPES = [
+  { type: 'sphere',    color: '#6366f1', x: 12,  y: 20,  size: 60,  dur: 8,  delay: 0   },
+  { type: 'torus',     color: '#8b5cf6', x: 78,  y: 60,  size: 45,  dur: 11, delay: 1.5 },
+  { type: 'diamond',   color: '#06b6d4', x: 25,  y: 70,  size: 35,  dur: 9,  delay: 3   },
+  { type: 'sphere',    color: '#ec4899', x: 65,  y: 15,  size: 50,  dur: 13, delay: 0.8 },
+  { type: 'diamond',   color: '#f59e0b', x: 88,  y: 75,  size: 30,  dur: 10, delay: 2   },
+  { type: 'torus',     color: '#6366f1', x: 45,  y: 85,  size: 40,  dur: 7,  delay: 4   },
+  { type: 'sphere',    color: '#8b5cf6', x: 5,   y: 50,  size: 25,  dur: 14, delay: 1   },
+]
 
-  useFrame((state) => {
-    const time = state.clock.getElapsedTime()
-    mesh.current.position.y = position[1] + Math.sin(time * speed) * 0.2
-    mesh.current.rotation.x = Math.sin(time * 0.3) * 0.2
-    mesh.current.rotation.y += 0.005
-    mesh.current.rotation.z = Math.cos(time * 0.2) * 0.1
-  })
+function Shape({ type, color, x, y, size, dur, delay }) {
+  const base = {
+    position: 'absolute',
+    left: `${x}%`,
+    top: `${y}%`,
+    width: size,
+    height: size,
+    opacity: 0.12,
+    animation: `floatShape ${dur}s ease-in-out ${delay}s infinite`,
+    pointerEvents: 'none',
+  }
 
-  const shapes = [
-    <Sphere args={[0.4, 64, 64]} />,
-    <Torus args={[0.3, 0.1, 32, 64]} />,
-    <Octahedron args={[0.35, 0]} />
-  ]
-
-  const ShapeComponent = shapes[Math.floor(Math.random() * shapes.length)]
-
+  if (type === 'sphere') {
+    return (
+      <div style={{
+        ...base,
+        borderRadius: '50%',
+        background: `radial-gradient(circle at 35% 35%, ${color}cc, ${color}22)`,
+        boxShadow: `0 0 ${size * 0.6}px ${color}44`,
+      }} />
+    )
+  }
+  if (type === 'torus') {
+    return (
+      <div style={{
+        ...base,
+        borderRadius: '50%',
+        border: `${Math.max(4, size * 0.12)}px solid ${color}88`,
+        boxShadow: `0 0 ${size * 0.4}px ${color}33, inset 0 0 ${size * 0.4}px ${color}11`,
+        background: 'transparent',
+      }} />
+    )
+  }
+  // diamond
   return (
-    <mesh ref={mesh} position={position}>
-      {ShapeComponent}
-      <MeshDistortMaterial
-        color={color}
-        speed={2}
-        distort={distort}
-        radius={0.5}
-        transparent
-        opacity={0.15}
-        metalness={0.8}
-        roughness={0.2}
-      />
-    </mesh>
+    <div style={{
+      ...base,
+      transform: `rotate(45deg)`,
+      borderRadius: size * 0.15,
+      background: `linear-gradient(135deg, ${color}88, ${color}22)`,
+      boxShadow: `0 0 ${size * 0.5}px ${color}33`,
+    }} />
   )
 }
 
-const FloatingShapes = () => {
-  const shapes = [
-    { position: [-2, 1, -2], color: '#6366f1', speed: 1.2 },
-    { position: [2.5, -0.5, -3], color: '#8b5cf6', speed: 0.8 },
-    { position: [-1.5, -1, -1], color: '#06b6d4', speed: 1.5 },
-    { position: [1.8, 1.2, -2.5], color: '#ec4899', speed: 1 },
-    { position: [-2.2, -0.8, -3.5], color: '#f59e0b', speed: 0.9 },
-  ]
-
-  return (
-    <div className="fixed inset-0 z-0 pointer-events-none">
-      <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={1} />
-        {shapes.map((shape, index) => (
-          <FloatingShape key={index} {...shape} />
-        ))}
-      </Canvas>
+const FloatingShapes = () => (
+  <>
+    <style>{`
+      @keyframes floatShape {
+        0%,100% { transform: translateY(0px) rotate(0deg); }
+        33%      { transform: translateY(-22px) rotate(6deg); }
+        66%      { transform: translateY(14px) rotate(-4deg); }
+      }
+    `}</style>
+    <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden' }}>
+      {SHAPES.map((s, i) => <Shape key={i} {...s} />)}
     </div>
-  )
-}
+  </>
+)
 
 export default FloatingShapes

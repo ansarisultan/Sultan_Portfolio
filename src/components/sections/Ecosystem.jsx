@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { FiCpu, FiGlobe, FiBarChart2, FiActivity } from 'react-icons/fi'
+import { FiActivity, FiBarChart2, FiCpu, FiGlobe } from '../../utils/icons'
 import GlassCard from '../ui/GlassCard'
 
 const Ecosystem = () => {

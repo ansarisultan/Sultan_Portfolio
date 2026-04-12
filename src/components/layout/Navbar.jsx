@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { HiMenuAlt4, HiX } from 'react-icons/hi'
+import { HiMenuAlt4, HiX } from '../../utils/icons'
 
 const navItems = [
   { name: 'Home', href: '#home' },

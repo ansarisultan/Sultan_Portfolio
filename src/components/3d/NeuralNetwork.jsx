@@ -1,81 +1,100 @@
-import React, { useRef, useMemo } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import { Line, Sphere } from '@react-three/drei'
-import * as THREE from 'three'
-
-function NeuralNodes({ count = 30 }) {
-  const groupRef = useRef()
-  
-  const points = useMemo(() => {
-    const pts = []
-    for (let i = 0; i < count; i++) {
-      pts.push({
-        position: new THREE.Vector3(
-          (Math.random() - 0.5) * 8,
-          (Math.random() - 0.5) * 8,
-          (Math.random() - 0.5) * 8
-        ),
-        color: new THREE.Color().setHSL(0.6 + Math.random() * 0.3, 0.8, 0.5),
-      })
-    }
-    return pts
-  }, [count])
-
-  const connections = useMemo(() => {
-    const conns = []
-    for (let i = 0; i < points.length; i++) {
-      for (let j = i + 1; j < points.length; j++) {
-        const dist = points[i].position.distanceTo(points[j].position)
-        if (dist < 3) {
-          conns.push([i, j])
-        }
-      }
-    }
-    return conns
-  }, [points])
-
-  useFrame((state) => {
-    const time = state.clock.getElapsedTime()
-    groupRef.current.rotation.y = Math.sin(time * 0.05) * 0.1
-    groupRef.current.rotation.x = Math.sin(time * 0.03) * 0.05
-  })
-
-  return (
-    <group ref={groupRef}>
-      {connections.map(([i, j], index) => (
-        <Line
-          key={index}
-          points={[points[i].position, points[j].position]}
-          color="#6366f1"
-          opacity={0.15}
-          transparent
-          lineWidth={0.5}
-        />
-      ))}
-      {points.map((point, index) => (
-        <Sphere key={index} position={point.position} args={[0.05, 16, 16]}>
-          <meshStandardMaterial
-            color={point.color}
-            emissive={point.color}
-            emissiveIntensity={0.5}
-            transparent
-            opacity={0.8}
-          />
-        </Sphere>
-      ))}
-    </group>
-  )
-}
+// Pure Canvas neural network — zero Three.js dependency (~1 KB vs 1.1 MiB)
+import React, { useEffect, useRef } from 'react'
 
 const NeuralNetwork = () => {
+  const canvasRef = useRef(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+
+    let W = window.innerWidth
+    let H = window.innerHeight
+    canvas.width = W
+    canvas.height = H
+
+    const NODE_COUNT = 28
+    const CONNECTION_DIST = Math.min(W, H) * 0.22
+
+    const nodes = Array.from({ length: NODE_COUNT }, () => ({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+      hue: Math.random() * 60 + 220, // blue-purple range
+    }))
+
+    let raf = 0
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H)
+
+      // Draw connections
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x
+          const dy = nodes[i].y - nodes[j].y
+          const dist = Math.sqrt(dx * dx + dy * dy)
+          if (dist < CONNECTION_DIST) {
+            const alpha = (1 - dist / CONNECTION_DIST) * 0.18
+            ctx.beginPath()
+            ctx.moveTo(nodes[i].x, nodes[i].y)
+            ctx.lineTo(nodes[j].x, nodes[j].y)
+            ctx.strokeStyle = `hsla(240, 70%, 70%, ${alpha})`
+            ctx.lineWidth = 0.6
+            ctx.stroke()
+          }
+        }
+      }
+
+      // Draw nodes
+      nodes.forEach(n => {
+        ctx.beginPath()
+        ctx.arc(n.x, n.y, 2.5, 0, Math.PI * 2)
+        ctx.fillStyle = `hsla(${n.hue}, 80%, 70%, 0.75)`
+        ctx.shadowColor = `hsla(${n.hue}, 80%, 70%, 0.8)`
+        ctx.shadowBlur = 6
+        ctx.fill()
+        ctx.shadowBlur = 0
+      })
+
+      // Move nodes
+      nodes.forEach(n => {
+        n.x += n.vx
+        n.y += n.vy
+        if (n.x < 0 || n.x > W) n.vx *= -1
+        if (n.y < 0 || n.y > H) n.vy *= -1
+      })
+
+      raf = requestAnimationFrame(draw)
+    }
+
+    draw()
+
+    const onResize = () => {
+      W = canvas.width = window.innerWidth
+      H = canvas.height = window.innerHeight
+    }
+    window.addEventListener('resize', onResize)
+
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener('resize', onResize)
+    }
+  }, [])
+
   return (
-    <div className="fixed inset-0 z-0 pointer-events-none opacity-30">
-      <Canvas camera={{ position: [0, 0, 10], fov: 60 }}>
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={1} />
-        <NeuralNodes count={25} />
-      </Canvas>
-    </div>
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 0,
+        pointerEvents: 'none',
+        opacity: 0.35,
+      }}
+    />
   )
 }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { FiCode, FiCpu, FiShield, FiCloud, FiLayers } from 'react-icons/fi'
+import { FiCode, FiCpu, FiLayers, FiShield } from '../../utils/icons'
 import GlassCard from '../ui/GlassCard'
 import AnimatedText from '../ui/AnimatedText'
 

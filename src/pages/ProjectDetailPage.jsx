@@ -2,14 +2,36 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  FiArrowLeft, FiGithub, FiExternalLink, FiDatabase, 
-  FiServer, FiLayout, FiCpu, FiShield, FiZap,
-  FiCode, FiBox, FiCloud, FiLock, FiGlobe,
-  FiCheckCircle, FiClock, FiUsers, FiTrendingUp
-} from 'react-icons/fi'
-import { HiOutlineCube, HiOutlineLightningBolt, HiOutlineChartBar } from 'react-icons/hi'
-import { SiReact, SiNodedotjs, SiMongodb, SiExpress, SiSocketdotio, SiTailwindcss, SiVite, SiDocker, SiGooglecloud } from 'react-icons/si'
+import {
+  FiArrowLeft,
+  FiBox,
+  FiCheckCircle,
+  FiClock,
+  FiCode,
+  FiCpu,
+  FiDatabase,
+  FiExternalLink,
+  FiGithub,
+  FiGlobe,
+  FiLayout,
+  FiLock,
+  FiServer,
+  FiShield,
+  FiTrendingUp,
+  FiUsers,
+  FiZap,
+  HiOutlineChartBar,
+  HiOutlineCollection,
+  HiOutlineLightningBolt,
+  SiExpress,
+  SiGooglecloud,
+  SiMongodb,
+  SiNodedotjs,
+  SiReact,
+  SiSocketdotio,
+  SiTailwindcss,
+  SiVite,
+} from '../utils/icons'
 import GlassCard from '../components/ui/GlassCard'
 import GradientButton from '../components/ui/GradientButton'
 import TiltCard from '../components/ui/TiltCard'
@@ -399,7 +421,7 @@ The project demonstrates scalable frontend structure, modular backend integratio
 
   const tabs = [
     { id: 'overview', label: 'Overview', icon: FiGlobe },
-    { id: 'architecture', label: 'Architecture', icon: HiOutlineCube },
+    { id: 'architecture', label: 'Architecture', icon: HiOutlineCollection },
     { id: 'features', label: 'Features', icon: HiOutlineLightningBolt },
     { id: 'technical', label: 'Tech Stack', icon: FiServer },
     { id: 'challenges', label: 'Challenges', icon: HiOutlineChartBar },
@@ -505,7 +527,7 @@ The project demonstrates scalable frontend structure, modular backend integratio
                         />
                       ) : (
                         <div className="text-center p-8">
-                          <HiOutlineCube className="w-20 h-20 text-primary-400/50 mx-auto mb-4" />
+                          <HiOutlineCollection className="w-20 h-20 text-primary-400/50 mx-auto mb-4" />
                           <p className="text-gray-400 text-lg font-medium">{project.title}</p>
                           <p className="text-gray-500 text-sm mt-2">Architecture Preview</p>
                         </div>
@@ -599,7 +621,7 @@ The project demonstrates scalable frontend structure, modular backend integratio
               <div className="space-y-8">
                 <GlassCard className="p-8">
                   <h2 className="text-2xl font-display font-semibold mb-6 flex items-center gap-3">
-                    <HiOutlineCube className="text-primary-400" />
+                    <HiOutlineCollection className="text-primary-400" />
                     System Architecture
                   </h2>
                   

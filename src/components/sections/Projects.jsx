@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { Link } from 'react-router-dom'  // Add this import
-import { FiExternalLink, FiGithub, FiArrowRight } from 'react-icons/fi'
+import { FiArrowRight, FiExternalLink, FiGithub } from '../../utils/icons'
 import GlassCard from '../ui/GlassCard'
 import TiltCard from '../ui/TiltCard'
 

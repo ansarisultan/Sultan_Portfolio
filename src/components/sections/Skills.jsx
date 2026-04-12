@@ -1,13 +1,22 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { 
-  SiReact, SiNodedotjs, SiMongodb, SiExpress, 
-  SiTailwindcss, SiJavascript, SiHtml5,
-  SiGooglecloud, SiSocketdotio, SiVite, SiPostman
-} from 'react-icons/si'
-import { DiPython, DiCss3 } from 'react-icons/di'
-import { BsShieldLock, BsRobot } from 'react-icons/bs'
+import {
+  BsRobot,
+  BsShieldLock,
+  DiCss3,
+  DiPython,
+  SiExpress,
+  SiHtml5,
+  SiJavascript,
+  SiMongodb,
+  SiNodedotjs,
+  SiPostman,
+  SiReact,
+  SiSocketdotio,
+  SiTailwindcss,
+  SiVite,
+} from '../../utils/icons'
 import GlassCard from '../ui/GlassCard'
 
 const Skills = () => {
